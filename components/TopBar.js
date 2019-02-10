@@ -60,7 +60,7 @@ const TopBar = (props) => {
         {
           fullscreen &&
           <TouchableOpacity style={styles.closeBtn} onPress={onClosePress}>
-            <Icon name='ios-close' size={34} color='#fff' />
+            <Icon name='ios-close' size={38} color='#fff' />
           </TouchableOpacity>
         }
         <Text
