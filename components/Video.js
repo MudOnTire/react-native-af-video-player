@@ -89,7 +89,7 @@ class Video extends Component {
   onLoad(data) {
     if (!this.state.loading) return
     this.props.onLoad(data)
-    const { height, width } = data.naturalSize   
+    const { height, width } = data.naturalSize
     const ratio = height === 'undefined' && width === 'undefined' ?
       (9 / 16) : (height / width)
     const inlineHeight = this.props.lockRatio ?
@@ -235,6 +235,18 @@ class Video extends Component {
     })
   }
 
+  closeVideo = () => {
+    this.setState({ fullScreen: false }, () => {
+      this.setState({ paused: true }, () => this.props.onPlay(!this.state.paused));
+      this.props.onFullScreen(this.state.fullScreen)
+      if (this.props.rotateToFullScreen) Orientation.lockToPortrait()
+      this.animToInline()
+      setTimeout(() => {
+        if (!this.props.lockPortraitOnFsExit) Orientation.unlockAllOrientations()
+      }, 1500)
+    });
+  }
+
   toggleFS() {
     this.setState({ fullScreen: !this.state.fullScreen }, () => {
       Orientation.getOrientation((e, orientation) => {
@@ -242,9 +254,9 @@ class Video extends Component {
           const initialOrient = Orientation.getInitialOrientation()
           const height = orientation !== initialOrient ?
             Win.width : Win.height
-            this.props.onFullScreen(this.state.fullScreen)
-            if (this.props.rotateToFullScreen) Orientation.lockToLandscape()
-            this.animToFullscreen(height)
+          this.props.onFullScreen(this.state.fullScreen)
+          if (this.props.rotateToFullScreen) Orientation.lockToLandscape()
+          this.animToFullscreen(height)
         } else {
           if (this.props.fullScreenOnly) {
             this.setState({ paused: true }, () => this.props.onPlay(!this.state.paused))
@@ -420,6 +432,7 @@ class Video extends Component {
           title={title}
           more={!!onMorePress}
           onMorePress={() => onMorePress()}
+          onClosePress={this.closeVideo}
           theme={setTheme}
           inlineOnly={inlineOnly}
         />
@@ -487,14 +500,14 @@ Video.defaultProps = {
   playWhenInactive: false,
   rotateToFullScreen: false,
   lockPortraitOnFsExit: false,
-  onEnd: () => {},
-  onLoad: () => {},
-  onPlay: () => {},
-  onError: () => {},
-  onProgress: () => {},
+  onEnd: () => { },
+  onLoad: () => { },
+  onPlay: () => { },
+  onError: () => { },
+  onProgress: () => { },
   onMorePress: undefined,
-  onFullScreen: () => {},
-  onTimedMetadata: () => {},
+  onFullScreen: () => { },
+  onTimedMetadata: () => { },
   rate: 1,
   volume: 1,
   lockRatio: undefined,

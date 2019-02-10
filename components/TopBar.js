@@ -49,15 +49,20 @@ const TopBar = (props) => {
     more,
     title,
     theme,
-    onMorePress
+    fullscreen,
+    onMorePress,
+    onClosePress
   } = props
   return (
     <LinearGradient colors={['rgba(0,0,0,0.75)', 'rgba(0,0,0,0)']} style={styles.container}>
       <View style={styles.row}>
         {logo && <Image style={styles.logo} resizeMode="contain" {...checkSource(logo)} />}
-        <TouchableOpacity style={styles.closeBtn}>
-          <Icon name='ios-close' size={30} />
-        </TouchableOpacity>
+        {
+          fullscreen &&
+          <TouchableOpacity style={styles.closeBtn} onPress={onClosePress}>
+            <Icon name='ios-close' size={34} color='#fff' />
+          </TouchableOpacity>
+        }
         <Text
           style={[styles.title, { color: theme.title }]}
           numberOfLines={1}
@@ -84,8 +89,10 @@ const TopBar = (props) => {
 TopBar.propTypes = {
   title: PropTypes.string.isRequired,
   logo: PropTypes.string.isRequired,
+  fullscreen: PropTypes.bool.isRequired,
   more: PropTypes.bool.isRequired,
   onMorePress: PropTypes.func.isRequired,
+  onClosePress: PropTypes.func.isRequired,
   theme: PropTypes.object.isRequired
 }
 

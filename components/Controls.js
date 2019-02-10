@@ -122,6 +122,7 @@ class Controls extends Component {
       logo,
       more,
       onMorePress,
+      onClosePress,
       title,
       progress,
       currentTime,
@@ -136,10 +137,12 @@ class Controls extends Component {
       <Touchable onPress={() => this.hideControls()}>
         <Animated.View style={[styles.container, { opacity: this.animControls }]}>
           <TopBar
+            fullscreen={fullscreen}
             title={title}
             logo={logo}
             more={more}
             onMorePress={() => onMorePress()}
+            onClosePress={onClosePress}
             theme={{ title: theme.title, more: theme.more }}
           />
           <Animated.View style={[styles.flex, { transform: [{ scale: this.scale }] }]}>
@@ -186,6 +189,7 @@ Controls.propTypes = {
   onSeek: PropTypes.func.isRequired,
   onSeekRelease: PropTypes.func.isRequired,
   onMorePress: PropTypes.func.isRequired,
+  onClosePress: PropTypes.func.isRequired,
   paused: PropTypes.bool.isRequired,
   inlineOnly: PropTypes.bool.isRequired,
   fullscreen: PropTypes.bool.isRequired,
