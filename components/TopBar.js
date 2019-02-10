@@ -5,10 +5,12 @@ import {
   View,
   StyleSheet,
   Text,
-  Image
+  Image,
+  TouchableOpacity
 } from 'react-native'
 
-import LinearGradient from 'react-native-linear-gradient'
+import LinearGradient from 'react-native-linear-gradient';
+import Icon from 'react-native-vector-icons';
 import { ToggleIcon } from './'
 import { checkSource } from './utils'
 
@@ -35,6 +37,9 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     height: 25,
     width: 25
+  },
+  closeBtn: {
+    paddingHorizontal: 16
   }
 })
 
@@ -49,7 +54,10 @@ const TopBar = (props) => {
   return (
     <LinearGradient colors={['rgba(0,0,0,0.75)', 'rgba(0,0,0,0)']} style={styles.container}>
       <View style={styles.row}>
-        { logo && <Image style={styles.logo} resizeMode="contain" {...checkSource(logo)} />}
+        {logo && <Image style={styles.logo} resizeMode="contain" {...checkSource(logo)} />}
+        <TouchableOpacity style={styles.closeBtn}>
+          <Icon name='ios-close' size={30} />
+        </TouchableOpacity>
         <Text
           style={[styles.title, { color: theme.title }]}
           numberOfLines={1}
@@ -57,7 +65,7 @@ const TopBar = (props) => {
         >
           {title}
         </Text>
-        { more &&
+        {more &&
           <ToggleIcon
             style={styles.more}
             onPress={() => onMorePress()}
