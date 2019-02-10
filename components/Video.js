@@ -382,6 +382,7 @@ class Video extends Component {
         }
         <VideoPlayer
           {...checkSource(url)}
+          ignoreSilentSwitch='ignore'
           paused={paused}
           resizeMode={resizeMode}
           repeat={loop}
